@@ -1111,6 +1111,10 @@ footer .widget{
   margin: 2rem 0;
 }
 
+.sidebar {
+  font-size: .8em;
+}
+
 .sidebar h2 {
     font-size: 1.2rem !important;
 }
@@ -1139,6 +1143,14 @@ td.tr-caption {
     font-size: 70%;
     font-style: italic;
     font-family: Georgia, serif;
+}
+
+.rss {
+  background-color: #f57c00;
+  color: #white;
+  display: inline-block;
+  padding: 0 .8em;
+  margin-left: .8em;
 }
 
 ]]></b:skin>
@@ -1341,6 +1353,7 @@ Everything about the Google Cloud Platform
   &lt;a href=&quot;/p/privacy.html&quot;&gt;Privacy&lt;/a&gt; 
   &lt;a href=&quot;/p/about.html&quot;&gt;About Us&lt;/a&gt; 
   &lt;a href=&quot;/p/contact.html&quot;&gt;Contact&lt;/a&gt;
+  &lt;a href=&quot;https:/feeds/posts/default&quot; class=&quot;rss&quot; target=&quot;_blank&quot;&gt;RSS&lt;/a&gt;
 &lt;/div&gt;
 &lt;/div&gt;</b:widget-setting>
           </b:widget-settings>
@@ -2572,6 +2585,49 @@ Everything about the Google Cloud Platform
     <b:include name='quickedit'/>
   </b:includable>
   </b:widget>
+  <b:widget id='FollowByEmail1' locked='false' title='Follow by Email' type='FollowByEmail'>
+    <b:includable id='main'>
+  <b:if cond='data:title != &quot;&quot;'><h2 class='title'><data:title/></h2></b:if>
+  <div class='widget-content'>
+    <div class='follow-by-email-inner'>
+      <form action='https://feedburner.google.com/fb/a/mailverify' expr:onsubmit='&quot;window.open(\&quot;https://feedburner.google.com/fb/a/mailverify?uri=&quot; + data:feedPath + &quot;\&quot;, \&quot;popupwindow\&quot;, \&quot;scrollbars=yes,width=550,height=520\&quot;); return true&quot;' method='post' target='popupwindow'>
+        <table width='100%'>
+          <tr>
+            <td>
+              <input class='follow-by-email-address' name='email' placeholder='Email address...' type='text'/>
+            </td>
+            <td width='64px'>
+              <input class='follow-by-email-submit' type='submit' value='Submit'/>
+            </td>
+          </tr>
+        </table>
+        <input expr:value='data:feedPath' name='uri' type='hidden'/>
+        <input name='loc' type='hidden' value='en_US'/>
+      </form>
+    </div>
+  </div>
+  <span class='item-control blog-admin'>
+    <b:include name='quickedit'/>
+  </span>
+</b:includable>
+  </b:widget>
+  <b:widget id='HTML7' locked='false' title='' type='HTML'>
+    <b:widget-settings>
+      <b:widget-setting name='content'>&lt;h2&gt;Follow Us:&lt;/h2&gt;
+&lt;div class=&quot;sharethis-inline-follow-buttons&quot;&gt;&lt;/div&gt;</b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <!-- only display title if it's non-empty -->
+  <b:if cond='data:title != &quot;&quot;'>
+    <h2 class='title'><data:title/></h2>
+  </b:if>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+
+  <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
   <b:widget id='Label1' locked='false' mobile='yes' title='Search by Topic' type='Label'>
     <b:widget-settings>
       <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
@@ -2618,29 +2674,12 @@ Everything about the Google Cloud Platform
   </div>
 </b:includable>
   </b:widget>
-  <b:widget id='HTML7' locked='false' title='' type='HTML'>
-    <b:widget-settings>
-      <b:widget-setting name='content'>&lt;h2&gt;Follow Us:&lt;/h2&gt;
-&lt;div class=&quot;sharethis-inline-follow-buttons&quot;&gt;&lt;/div&gt;</b:widget-setting>
-    </b:widget-settings>
-    <b:includable id='main'>
-  <!-- only display title if it's non-empty -->
-  <b:if cond='data:title != &quot;&quot;'>
-    <h2 class='title'><data:title/></h2>
-  </b:if>
-  <div class='widget-content'>
-    <data:content/>
-  </div>
-
-  <b:include name='quickedit'/>
-</b:includable>
-  </b:widget>
   <b:widget id='PopularPosts1' locked='false' title='Popular this Week' type='PopularPosts'>
     <b:widget-settings>
-      <b:widget-setting name='numItemsToShow'>10</b:widget-setting>
+      <b:widget-setting name='numItemsToShow'>3</b:widget-setting>
       <b:widget-setting name='showThumbnails'>true</b:widget-setting>
       <b:widget-setting name='showSnippets'>true</b:widget-setting>
-      <b:widget-setting name='timeRange'>LAST_WEEK</b:widget-setting>
+      <b:widget-setting name='timeRange'>LAST_MONTH</b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
   <b:if cond='data:title != &quot;&quot;'><h2><data:title/></h2></b:if>
@@ -2711,7 +2750,7 @@ Everything about the Google Cloud Platform
 </b:section-contents><b:section-contents id='footer-1'>
   <b:widget id='HTML6' locked='false' mobile='yes' title='' type='HTML'>
     <b:widget-settings>
-      <b:widget-setting name='content'><![CDATA[Is this website helpful to you? Please consider sharing posts and <a href="/p/contact.html">sending your feedback</a>. Thanks!]]></b:widget-setting>
+      <b:widget-setting name='content'><![CDATA[Is this website helpful to you? Please consider subscribing, sharing posts, and <a href="//twitter.com/gcp4us">sending your feedback</a>. Thanks!]]></b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
   <!-- only display title if it's non-empty -->
@@ -2735,8 +2774,9 @@ Everything about the Google Cloud Platform
 &lt;a href=&quot;/p/about.html&quot;&gt;About Us&lt;/a&gt; |
 &lt;a href=&quot;/p/contact.html&quot;&gt;Contact&lt;/a&gt; |
 &lt;a href=&quot;//github.com/gcp4us&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; |
-  &lt;a href=&quot;//www.gcp4us.com/feeds/posts/default&quot; target=&quot;_blank&quot;&gt;RSS
- &lt;/a&gt;&lt;/p&gt;
+  &lt;a href=&quot;https:/feeds/posts/default&quot; class=&quot;rss&quot; target=&quot;_blank&quot;&gt;RSS&lt;/a&gt;
+
+&lt;/p&gt;
 
 &lt;p&gt;GCP4Us | Everything about the Google Cloud Platform&lt;/p&gt;
 &lt;p&gt;2020 &#169; &lt;a href=&quot;//www.hildenco.com&quot; target=&quot;_blank&quot;&gt;HildenCo Software&lt;/a&gt;&lt;/p&gt;
