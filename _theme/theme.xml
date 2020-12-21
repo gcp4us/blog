@@ -434,6 +434,10 @@ header {
   display: none;
 }
 
+.mobile .item-thumbnail {
+  float: left;
+  padding-right: 1em;
+}
 
 .post-header {
   margin: 0 0 1.5em;
@@ -760,11 +764,6 @@ div.PopularPosts h2 {
 .widget ul {
   padding: 0px;
   list-style: none;
-}
-
-#PopularPosts1, #PopularPosts2 {
-   border-bottom: 1px solid #dddddd;
-   height: 500px
 }
 
 .item-snippet {
@@ -1157,7 +1156,7 @@ td.tr-caption {
     <b:template-skin>
       <b:variable default='960px' name='content.width' type='length' value='1020px'/>
       <b:variable default='0' name='main.column.left.width' type='length' value='0px'/>
-      <b:variable default='310px' name='main.column.right.width' type='length' value='280px'/>
+      <b:variable default='310px' name='main.column.right.width' type='length' value='300px'/>
 
       <![CDATA[
       body {
@@ -1389,9 +1388,17 @@ Everything about the Google Cloud Platform
     <div class='fauxborder-left tabs-fauxborder-left'>
     <div class='fauxborder-right tabs-fauxborder-right'/>
     <div class='region-inner tabs-inner'>
-      <b:section class='tabs' id='crosscol' maxwidgets='1' name='Cross-Column' showaddelement='yes'/>
-      <b:section class='tabs' id='crosscol-overflow' name='Cross-Column 2' showaddelement='no'>
+      <b:section class='tabs' id='crosscol' maxwidgets='1' name='Cross-Column' showaddelement='yes'>
         <b:widget id='AdSense1' locked='false' title='' type='AdSense'>
+          <b:widget-settings>
+            <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+            <b:widget-setting name='style.textcolor'>#333333</b:widget-setting>
+            <b:widget-setting name='style.layout'>970x90</b:widget-setting>
+            <b:widget-setting name='style.bordercolor'>#2288bb</b:widget-setting>
+            <b:widget-setting name='style.urlcolor'>#666666</b:widget-setting>
+            <b:widget-setting name='style.linkcolor'>#2288bb</b:widget-setting>
+            <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+          </b:widget-settings>
           <b:includable id='main'>
   <div class='widget-content'>
     <data:adCode/>
@@ -1400,6 +1407,7 @@ Everything about the Google Cloud Platform
 </b:includable>
         </b:widget>
       </b:section>
+      <b:section class='tabs' id='crosscol-overflow' name='Cross-Column 2' showaddelement='no'/>
     </div>
     </div>
     <div class='tabs-cap-bottom cap-bottom'>
@@ -1496,7 +1504,7 @@ Everything about the Google Cloud Platform
                 <b:widget-setting name='postsPerAd'>1</b:widget-setting>
                 <b:widget-setting name='showBacklinks'>false</b:widget-setting>
                 <b:widget-setting name='style.bordercolor'>#000000</b:widget-setting>
-                <b:widget-setting name='showInlineAds'>false</b:widget-setting>
+                <b:widget-setting name='showInlineAds'>true</b:widget-setting>
                 <b:widget-setting name='showReactions'>false</b:widget-setting>
               </b:widget-settings>
               <b:includable id='main' var='top'>
@@ -2365,7 +2373,16 @@ Everything about the Google Cloud Platform
   <b:include name='quickedit'/>
 </b:includable>
             </b:widget>
-            <b:widget id='AdSense2' locked='false' title='' type='AdSense'>
+            <b:widget id='AdSense3' locked='false' title='' type='AdSense'>
+              <b:widget-settings>
+                <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+                <b:widget-setting name='style.textcolor'>#333333</b:widget-setting>
+                <b:widget-setting name='style.layout'>1x1</b:widget-setting>
+                <b:widget-setting name='style.bordercolor'>#2288bb</b:widget-setting>
+                <b:widget-setting name='style.urlcolor'>#666666</b:widget-setting>
+                <b:widget-setting name='style.linkcolor'>#2288bb</b:widget-setting>
+                <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+              </b:widget-settings>
               <b:includable id='main'>
   <div class='widget-content'>
     <data:adCode/>
@@ -2410,6 +2427,54 @@ Everything about the Google Cloud Platform
       width: 100%;
     }
   </style>
+</b:includable>
+            </b:widget>
+            <b:widget id='PopularPosts1' locked='false' mobile='yes' title='Popular this Week' type='PopularPosts'>
+              <b:widget-settings>
+                <b:widget-setting name='numItemsToShow'>4</b:widget-setting>
+                <b:widget-setting name='showThumbnails'>true</b:widget-setting>
+                <b:widget-setting name='showSnippets'>true</b:widget-setting>
+                <b:widget-setting name='timeRange'>LAST_MONTH</b:widget-setting>
+              </b:widget-settings>
+              <b:includable id='main'>
+  <b:if cond='data:title != &quot;&quot;'><h2><data:title/></h2></b:if>
+  <div class='widget-content popular-posts'>
+    <ul>
+      <b:loop values='data:posts' var='post'>
+      <li>
+        <b:if cond='!data:showThumbnails'>
+          <b:if cond='!data:showSnippets'>
+            <!-- (1) No snippet/thumbnail -->
+            <a expr:href='data:post.href'><data:post.title/></a>
+          <b:else/>
+            <!-- (2) Show only snippets -->
+            <div class='item-title'><a expr:href='data:post.href'><data:post.title/></a></div>
+            <div class='item-snippet'><data:post.snippet/></div>
+          </b:if>
+        <b:else/>
+          <!-- (3) Show only thumbnails or (4) Snippets and thumbnails. -->
+          <div expr:class='data:showSnippets ? &quot;item-content&quot; : &quot;item-thumbnail-only&quot;'>
+            <b:if cond='data:post.featuredImage.isResizable or data:post.thumbnail'>
+              <div class='item-thumbnail'>
+                <a expr:href='data:post.href' target='_blank'>
+                  <b:with value='data:post.featuredImage.isResizable                                  ? resizeImage(data:post.featuredImage, 72, &quot;1:1&quot;)                                  : data:post.thumbnail' var='image'>
+                    <img alt='' border='0' expr:src='data:image'/>
+                  </b:with>
+                </a>
+              </div>
+            </b:if>
+            <div class='item-title'><a expr:href='data:post.href'><data:post.title/></a></div>
+            <b:if cond='data:showSnippets'>
+              <div class='item-snippet'><data:post.snippet/></div>
+            </b:if>
+          </div>
+          <div style='clear: both;'/>
+        </b:if>
+      </li>
+      </b:loop>
+    </ul>
+    <b:include name='quickedit'/>
+  </div>
 </b:includable>
             </b:widget>
           </b:section>
@@ -2628,13 +2693,30 @@ Everything about the Google Cloud Platform
   <b:include name='quickedit'/>
 </b:includable>
   </b:widget>
+  <b:widget id='AdSense2' locked='false' title='' type='AdSense'>
+    <b:widget-settings>
+      <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+      <b:widget-setting name='style.textcolor'>#333333</b:widget-setting>
+      <b:widget-setting name='style.layout'>300x250</b:widget-setting>
+      <b:widget-setting name='style.bordercolor'>#222222</b:widget-setting>
+      <b:widget-setting name='style.urlcolor'>#2288bb</b:widget-setting>
+      <b:widget-setting name='style.linkcolor'>#222222</b:widget-setting>
+      <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <div class='widget-content'>
+    <data:adCode/>
+    <b:include name='quickedit'/>
+  </div>
+</b:includable>
+  </b:widget>
   <b:widget id='Label1' locked='false' mobile='yes' title='Search by Topic' type='Label'>
     <b:widget-settings>
       <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
       <b:widget-setting name='display'>CLOUD</b:widget-setting>
       <b:widget-setting name='selectedLabelsList'/>
       <b:widget-setting name='showType'>ALL</b:widget-setting>
-      <b:widget-setting name='showFreqNumbers'>true</b:widget-setting>
+      <b:widget-setting name='showFreqNumbers'>false</b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
   <b:if cond='data:title != &quot;&quot;'>
@@ -2674,55 +2756,16 @@ Everything about the Google Cloud Platform
   </div>
 </b:includable>
   </b:widget>
-  <b:widget id='PopularPosts1' locked='false' title='Popular this Week' type='PopularPosts'>
+  <b:widget id='AdSense4' locked='false' title='' type='AdSense'>
     <b:widget-settings>
-      <b:widget-setting name='numItemsToShow'>3</b:widget-setting>
-      <b:widget-setting name='showThumbnails'>true</b:widget-setting>
-      <b:widget-setting name='showSnippets'>true</b:widget-setting>
-      <b:widget-setting name='timeRange'>LAST_MONTH</b:widget-setting>
+      <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+      <b:widget-setting name='style.textcolor'>#333333</b:widget-setting>
+      <b:widget-setting name='style.layout'>300x250</b:widget-setting>
+      <b:widget-setting name='style.bordercolor'>#222222</b:widget-setting>
+      <b:widget-setting name='style.urlcolor'>#2288bb</b:widget-setting>
+      <b:widget-setting name='style.linkcolor'>#222222</b:widget-setting>
+      <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
     </b:widget-settings>
-    <b:includable id='main'>
-  <b:if cond='data:title != &quot;&quot;'><h2><data:title/></h2></b:if>
-  <div class='widget-content popular-posts'>
-    <ul>
-      <b:loop values='data:posts' var='post'>
-      <li>
-        <b:if cond='!data:showThumbnails'>
-          <b:if cond='!data:showSnippets'>
-            <!-- (1) No snippet/thumbnail -->
-            <a expr:href='data:post.href'><data:post.title/></a>
-          <b:else/>
-            <!-- (2) Show only snippets -->
-            <div class='item-title'><a expr:href='data:post.href'><data:post.title/></a></div>
-            <div class='item-snippet'><data:post.snippet/></div>
-          </b:if>
-        <b:else/>
-          <!-- (3) Show only thumbnails or (4) Snippets and thumbnails. -->
-          <div expr:class='data:showSnippets ? &quot;item-content&quot; : &quot;item-thumbnail-only&quot;'>
-            <b:if cond='data:post.featuredImage.isResizable or data:post.thumbnail'>
-              <div class='item-thumbnail'>
-                <a expr:href='data:post.href' target='_blank'>
-                  <b:with value='data:post.featuredImage.isResizable                                  ? resizeImage(data:post.featuredImage, 72, &quot;1:1&quot;)                                  : data:post.thumbnail' var='image'>
-                    <img alt='' border='0' expr:src='data:image'/>
-                  </b:with>
-                </a>
-              </div>
-            </b:if>
-            <div class='item-title'><a expr:href='data:post.href'><data:post.title/></a></div>
-            <b:if cond='data:showSnippets'>
-              <div class='item-snippet'><data:post.snippet/></div>
-            </b:if>
-          </div>
-          <div style='clear: both;'/>
-        </b:if>
-      </li>
-      </b:loop>
-    </ul>
-    <b:include name='quickedit'/>
-  </div>
-</b:includable>
-  </b:widget>
-  <b:widget id='AdSense3' locked='false' title='' type='AdSense'>
     <b:includable id='main'>
   <div class='widget-content'>
     <data:adCode/>
@@ -2733,7 +2776,7 @@ Everything about the Google Cloud Platform
   <b:widget id='HTML2' locked='false' title='' type='HTML'>
     <b:widget-settings>
       <b:widget-setting name='content'>&lt;h4&gt;Recent Tweets&lt;/h4&gt;
-&lt;a class=&quot;twitter-timeline&quot; data-width=&quot;500&quot; data-height=&quot;300&quot; data-tweet-limit=&quot;3&quot; data-chrome=&quot;noheader nofooter noborders&quot; href=&quot;https://twitter.com/gcp4us?ref_src=twsrc%5Etfw&quot;&gt;&lt;/a&gt; &lt;script async=&quot;async&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot; &gt;&lt;/script&gt;</b:widget-setting>
+&lt;a class=&quot;twitter-timeline&quot; data-width=&quot;500&quot; data-height=&quot;300&quot; data-tweet-limit=&quot;1&quot; data-chrome=&quot;noheader nofooter noborders&quot; href=&quot;https://twitter.com/gcp4us?ref_src=twsrc%5Etfw&quot;&gt;&lt;/a&gt; &lt;script async=&quot;async&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot; &gt;&lt;/script&gt;</b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
   <!-- only display title if it's non-empty -->
@@ -2745,6 +2788,23 @@ Everything about the Google Cloud Platform
   </div>
 
   <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
+  <b:widget id='AdSense5' locked='false' title='' type='AdSense'>
+    <b:widget-settings>
+      <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+      <b:widget-setting name='style.textcolor'>#333333</b:widget-setting>
+      <b:widget-setting name='style.layout'>1x1</b:widget-setting>
+      <b:widget-setting name='style.bordercolor'>#222222</b:widget-setting>
+      <b:widget-setting name='style.urlcolor'>#2288bb</b:widget-setting>
+      <b:widget-setting name='style.linkcolor'>#222222</b:widget-setting>
+      <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <div class='widget-content'>
+    <data:adCode/>
+    <b:include name='quickedit'/>
+  </div>
 </b:includable>
   </b:widget>
 </b:section-contents><b:section-contents id='footer-1'>
@@ -2773,14 +2833,14 @@ Everything about the Google Cloud Platform
 &lt;a href=&quot;/p/privacy.html&quot;&gt;Privacy&lt;/a&gt; |
 &lt;a href=&quot;/p/about.html&quot;&gt;About Us&lt;/a&gt; |
 &lt;a href=&quot;/p/contact.html&quot;&gt;Contact&lt;/a&gt; |
-&lt;a href=&quot;//github.com/gcp4us&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; |
-  &lt;a href=&quot;https:/feeds/posts/default&quot; class=&quot;rss&quot; target=&quot;_blank&quot;&gt;RSS&lt;/a&gt;
+&lt;a href=&quot;//github.com/gcp4us&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; 
+&lt;a href=&quot;https:/feeds/posts/default&quot; class=&quot;rss&quot; target=&quot;_blank&quot;&gt;RSS&lt;/a&gt;
 
 &lt;/p&gt;
 
 &lt;p&gt;GCP4Us | Everything about the Google Cloud Platform&lt;/p&gt;
 &lt;p&gt;2020 &#169; &lt;a href=&quot;//www.hildenco.com&quot; target=&quot;_blank&quot;&gt;HildenCo Software&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt; Made with 🧡 in Canada&lt;/p&gt;
+&lt;p&gt; Made with &#65533;&#65533; in Canada&lt;/p&gt;
 
 &lt;/div&gt;</b:widget-setting>
     </b:widget-settings>
